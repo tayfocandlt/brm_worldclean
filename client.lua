@@ -41,8 +41,6 @@ end
 
 local function applyDispatchSettings()
     if Config.DisableDispatch then
-        -- GTA dispatch servisleri: polis, helikopter, SWAT, ambulans vb.
-        -- RP polis/EMS oyuncularına veya dispatch scriptlerine event göndermez.
         for service = 1, 15 do
             EnableDispatchService(service, false)
         end
@@ -77,16 +75,12 @@ local function applyAudioSettings()
     end
 end
 
--- Bu olay yalnızca GTA population ped oluşturma yolunu hedefler.
--- CreatePed ile oluşturulan market/görev NPC'lerini tarayıp silmeyiz.
 AddEventHandler('populationPedCreating', function()
     if Config.DisablePopulation then
         CancelEvent()
     end
 end)
 
--- Native adındaki ThisFrame zorunluluğu nedeniyle Wait(0) kullanılır.
--- Bu döngüde araç/ped havuzu taraması, ağ isteği veya entity silme yoktur.
 if Config.DisablePopulation then
     CreateThread(function()
         while true do
@@ -100,7 +94,6 @@ if Config.DisablePopulation then
     end)
 end
 
--- Başlangıçta, yeniden başlatıldığında ve harita/ses tekrar yüklendiğinde uygula.
 CreateThread(function()
     while true do
         applyPopulationSettings()
@@ -110,8 +103,6 @@ CreateThread(function()
     end
 end)
 
--- Başka bir resource'un başlattığı ses sahnesini topluca durdurma.
--- Diğer kalıcı GTA bayrakları için tam geri alma: KURULUM_TR.txt.
 AddEventHandler('onClientResourceStop', function(stoppedResource)
     if stoppedResource ~= resourceName then return end
 
@@ -121,7 +112,6 @@ AddEventHandler('onClientResourceStop', function(stoppedResource)
     end
 end)
 
--- F8 konsolunda bwc_status: yalnızca yerel ayar ve ses sahnesi kontrolü.
 RegisterCommand('bwc_status', function()
     local scene = Config.AmbientAudioScene
     local sceneActive = scene ~= '' and IsAudioSceneActive(scene) or false
