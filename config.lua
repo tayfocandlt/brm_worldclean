@@ -1,3 +1,5 @@
+-- Ucretli sistemi kırdık loo --
+
 Config = {}
 Config.DisablePopulation = true
 Config.DisableDispatch = true
